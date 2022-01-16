@@ -1,8 +1,8 @@
 const startGameBtn = document.getElementById('start-game-btn');
 
-const ROCK = 'Rock';
-const PAPER = 'Paper';
-const SCISSORS = 'Scissors';
+const ROCK = 'ROCK';
+const PAPER = 'PAPER';
+const SCISSORS = 'SCISSORS';
 const DEFAULT_USER_CHOICE = ROCK;
 const RESULT_DRAW ='Draw';
 const RESULT_PLAYER_WINS = 'PLAYER_WINS'
@@ -12,6 +12,7 @@ let gameIsRunning = false;
 
 const getPlayerChoice = function() {
     const selection = prompt(`${ROCK}, ${PAPER} or ${SCISSORS}?`, '').toUpperCase();
+    console.log(selection);
     if (
         selection !== ROCK && 
         selection !== PAPER && 
@@ -55,9 +56,20 @@ startGameBtn.addEventListener('click', function() {
 
     gameIsRunning  = true;
     console.log('Game is starting...');
-    const playerSelection = getPlayerChoice();
+    const playerChoice = getPlayerChoice();
     const computerChoice = getComputerChoice();
-    const winner = getWinner(); 
+    const winner = getWinner(computerChoice, playerChoice);
+    console.log(winner); 
 
-    console.log(playerSelection);
+    let message = `You picked ${playerChoice}, computer picked ${computerChoice}, therefore you `;
+    if (winner === RESULT_DRAW) {
+        message = message + `had a draw.`;
+    } else if (winner === RESULT_PLAYER_WINS) {
+        message = message + `you won.`;
+    } else {
+        message = message + `you lost.`;
+    }
+    alert(message);
+    gameIsRunning = false;
+
 });
