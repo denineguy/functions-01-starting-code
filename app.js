@@ -35,7 +35,7 @@ const getComputerChoice = function() {
     }
 }
 
-const getWinner = function(cChoice, pChoice) {
+const getWinner = (cChoice, pChoice = DEFAULT_USER_CHOICE) => {
     if (cChoice === pChoice) {
         return RESULT_DRAW;
     } else if(
@@ -51,23 +51,29 @@ const getWinner = function(cChoice, pChoice) {
 
 startGameBtn.addEventListener('click', function() {
     if (gameIsRunning) {
-
+        return;
     }
 
     gameIsRunning  = true;
     console.log('Game is starting...');
     const playerChoice = getPlayerChoice();
     const computerChoice = getComputerChoice();
-    const winner = getWinner(computerChoice, playerChoice);
-    console.log(winner); 
+    let winner;
+    if(playerChoice) {
+        winner = getWinner(computerChoice, playerChoice);
+    } else {
+        winner = getWinner(computerChoice);
+    }
+    // const winner = getWinner(computerChoice, playerChoice);
+    // console.log(winner); 
 
-    let message = `You picked ${playerChoice}, computer picked ${computerChoice}, therefore you `;
+    let message = `You picked ${playerChoice || DEFAULT_USER_CHOICE}, computer picked ${computerChoice}, therefore you `;
     if (winner === RESULT_DRAW) {
         message = message + `had a draw.`;
     } else if (winner === RESULT_PLAYER_WINS) {
-        message = message + `you won.`;
+        message = message + `won.`;
     } else {
-        message = message + `you lost.`;
+        message = message + `lost.`;
     }
     alert(message);
     gameIsRunning = false;
